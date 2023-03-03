@@ -13,9 +13,20 @@ URL = "https://www.imdb.com/chart/top/"
 driver = webdriver.Chrome()
 titles = []
 titles_id = []
+catalogue = pd.DataFrame()
 
 
-if __name__=='__main__':
+def add_movie(catalogue, id, title, rating):
+    new_movie = {
+        "Title": title,
+        "Rating": rating,
+    }
+    new_movie = pd.DataFrame(new_movie, index=[id])
+    catalogue = pd.concat([catalogue, new_movie], axis=0)
+    return catalogue
+
+
+if __name__ == '__main__':
     print("Hello World")
-    movie = Movie("Patata", "450903",2)
-    print(movie)
+    catalogue = add_movie(catalogue, 98403, "Hola", 4)
+    print(catalogue)
