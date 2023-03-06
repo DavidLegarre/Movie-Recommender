@@ -1,6 +1,6 @@
 # Movie-Recommender
 
-A movie recommender using https:www.imdb.com as a database.
+A movie recommender using www.imdb.com as a database.
 
 
 # To use
