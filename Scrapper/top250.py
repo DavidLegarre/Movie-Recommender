@@ -37,8 +37,6 @@ if __name__ == '__main__':
         catalogue = add_movie(catalogue, *data)
         movies_seen += 1
         print(f"Movies saved to the database: {movies_seen}")
-        if movies_seen == 10:
-            break
 
     driver.quit()
 
