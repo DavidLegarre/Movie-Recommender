@@ -1,3 +1,4 @@
+from imdb_scrapper import *
 import sys
 ######
 from selenium import webdriver
@@ -6,27 +7,41 @@ import pandas as pd
 ######
 sys.path.append(".")
 
-from Classes.movie import *
 
 URL = "https://www.imdb.com/chart/top/"
 
-driver = webdriver.Chrome()
 titles = []
 titles_id = []
-catalogue = pd.DataFrame()
+catalogue = pd.DataFrame(columns=["Title", "Rating", "Genres"])
 
 
-def add_movie(catalogue, id, title, rating):
+def add_movie(catalogue, id, title, rating, genres):
     new_movie = {
-        "Title": title,
-        "Rating": rating,
+        "Title": [title],
+        "Rating": [rating],
+        "Genres": [genres]
     }
+    print(new_movie.items())
     new_movie = pd.DataFrame(new_movie, index=[id])
-    catalogue = pd.concat([catalogue, new_movie], axis=0)
+    catalogue = pd.concat([catalogue, new_movie], ignore_index=True)
     return catalogue
 
 
 if __name__ == '__main__':
-    print("Hello World")
-    catalogue = add_movie(catalogue, 98403, "Hola", 4)
+    driver, url_list = top_chart_scrapper(URL)
+
+    movies_seen = 0
+
+    for url in url_list:
+        data = movie_web_scrapper(driver, url)
+        catalogue = add_movie(catalogue, *data)
+        movies_seen += 1
+        print(f"Movies saved to the database: {movies_seen}")
+        if movies_seen == 10:
+            break
+
+    driver.quit()
+
     print(catalogue)
+
+    catalogue.to_csv("Top_250_films.csv")
