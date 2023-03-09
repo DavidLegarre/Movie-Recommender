@@ -23,7 +23,7 @@ def add_movie(catalogue, id, title, rating, genres):
     }
     print(new_movie.items())
     new_movie = pd.DataFrame(new_movie, index=[id])
-    catalogue = pd.concat([catalogue, new_movie], ignore_index=True)
+    catalogue = pd.concat([catalogue, new_movie], ignore_index=False)
     return catalogue
 
 
